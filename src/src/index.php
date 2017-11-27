@@ -4,7 +4,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 {
   if($_POST['username'] == 'teste' && $_POST['password'] == '123456')
   {
-    header("Location: dashboard.html");
+    header("Location: dashboard.php");
   }
   else
   {
