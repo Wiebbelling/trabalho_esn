@@ -1,4 +1,5 @@
 <!-- login.php -->
+
 <?php
 include "acesso.php";
 
@@ -10,10 +11,14 @@ $acesso->conectar();
 session_start();
 session_name("adm");
 
+$_SESSION['validacao'] = 0; //remover essa linha quando criar uma função de logout
+
 if(isset($_SESSION['validacao']) && isset($_SESSION['codigo']))
 {
 	if($_SESSION['validacao'] == 1)
-		header("Location:listaposts.php");
+	{
+		header("Location:listasolicitacoes.php");
+	}
 }
 
 
@@ -26,7 +31,7 @@ if(isset($_POST['usuario']) && isset($_POST['senha']))
 	{
 		$_SESSION['validacao'] = 1;
     $_SESSION['codigo'] = $usuario;
-		header("Location:listaposts.php");
+		header("Location:listasolicitacoes.php");
 	}
 	else
 	{

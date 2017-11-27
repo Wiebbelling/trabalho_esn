@@ -16,8 +16,11 @@ include "acesso.php";
 //   header("Location:login.php"); 
 // }
 
+
 if(isset($_GET['status']))
   $status = $_GET['status'];
+
+
 
 ?>
 
@@ -57,6 +60,7 @@ if(isset($_GET['status']))
                 <!-- RD Navbar Brand--><a href="index.html" class="rd-navbar-brand"><!-- <span class="text-thin text-primary">[</span>
                   <div class="brand-name"><span class="text-ubold text-river-bed">Oi</span><span class="text-thin"> Lindo</span></div><span class="text-thin text-primary">]</span> -->
                
+            
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
              width="130.000000pt" height="45.000000pt" viewBox="0 0 200.000000 66.000000"
              preserveAspectRatio="xMidYMid meet"><defs><style>.cls-1{fill:#496178;}</style></defs>

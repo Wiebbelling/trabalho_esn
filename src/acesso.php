@@ -17,6 +17,9 @@ class Acesso {
 		//$con = mysqli_connect("mysql.hostinger.com.br","u580826224_construtora","123456","u580826224_construtora") or die ("erro".mysqli_error($con)); < conexao com banco do servidor
 
 		$con = mysqli_connect("localhost","root","","construtora") or die ("erro".mysqli_error($con)); //conexao local
+		
+		//$con = mysqli_connect("localhost","dummy", "" ,"construtora") or die ("erro".mysqli_error($con)); //conexao local
+		
 
 		return $con;
 
@@ -55,7 +58,7 @@ function login($usuario, $senha)
 
 		global $con;
 
-		$query ="SELECT password FROM usuarios WHERE user = '$usuario'";
+		$query ="SELECT password FROM Login WHERE idLogin = '$usuario'";
 
 		$resultado = mysqli_query($con,$query) or die("erro de consulta".mysqli_error($con));
 
