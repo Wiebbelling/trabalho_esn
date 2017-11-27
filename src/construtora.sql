@@ -39,6 +39,7 @@ CREATE TABLE `Almoxarifado` (
 
 LOCK TABLES `Almoxarifado` WRITE;
 /*!40000 ALTER TABLE `Almoxarifado` DISABLE KEYS */;
+INSERT INTO `Almoxarifado` VALUES (0,'Forno Alegre - Inferno','infinito','dummy');
 /*!40000 ALTER TABLE `Almoxarifado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +64,7 @@ CREATE TABLE `Login` (
 
 LOCK TABLES `Login` WRITE;
 /*!40000 ALTER TABLE `Login` DISABLE KEYS */;
-INSERT INTO `Login` VALUES ('dummy','123',1),('Hommer','porco_aranha',0);
+INSERT INTO `Login` VALUES ('dummy','123',2),('Hommer','porco_aranha',1);
 /*!40000 ALTER TABLE `Login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,6 +92,7 @@ CREATE TABLE `Obra` (
 
 LOCK TABLES `Obra` WRITE;
 /*!40000 ALTER TABLE `Obra` DISABLE KEYS */;
+INSERT INTO `Obra` VALUES (0,0,'Forno Alegre - Inferno 2','Hommer');
 /*!40000 ALTER TABLE `Obra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,10 +106,7 @@ DROP TABLE IF EXISTS `Recurso`;
 CREATE TABLE `Recurso` (
   `CodigoRecurso` int(11) NOT NULL,
   `Descricao` varchar(200) DEFAULT NULL,
-  `Almoxarifado_idAlmoxarifado` int(11) NOT NULL,
-  PRIMARY KEY (`CodigoRecurso`),
-  KEY `fk_Recurso_Almoxarifado_idx` (`Almoxarifado_idAlmoxarifado`),
-  CONSTRAINT `fk_Recurso_Almoxarifado` FOREIGN KEY (`Almoxarifado_idAlmoxarifado`) REFERENCES `Almoxarifado` (`idAlmoxarifado`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`CodigoRecurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,6 +117,33 @@ CREATE TABLE `Recurso` (
 LOCK TABLES `Recurso` WRITE;
 /*!40000 ALTER TABLE `Recurso` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Recurso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Solicitacoes`
+--
+
+DROP TABLE IF EXISTS `Solicitacoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Solicitacoes` (
+  `idObra` int(11) NOT NULL,
+  `codigoRecurso` int(11) NOT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idObra`,`codigoRecurso`),
+  KEY `fk_codRecurso` (`codigoRecurso`),
+  CONSTRAINT `fk_codRecurso` FOREIGN KEY (`codigoRecurso`) REFERENCES `Recurso` (`CodigoRecurso`),
+  CONSTRAINT `fk_idObra` FOREIGN KEY (`idObra`) REFERENCES `Obra` (`idObra`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Solicitacoes`
+--
+
+LOCK TABLES `Solicitacoes` WRITE;
+/*!40000 ALTER TABLE `Solicitacoes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Solicitacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -160,4 +186,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-27 14:54:04
+-- Dump completed on 2017-11-27 18:05:10
