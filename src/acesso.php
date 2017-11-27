@@ -16,9 +16,9 @@ class Acesso {
 
 		//$con = mysqli_connect("mysql.hostinger.com.br","u580826224_construtora","123456","u580826224_construtora") or die ("erro".mysqli_error($con)); < conexao com banco do servidor
 
-		$con = mysqli_connect("localhost","root","","construtora") or die ("erro".mysqli_error($con)); //conexao local
+		//$con = mysqli_connect("localhost","root","","construtora") or die ("erro".mysqli_error($con)); //conexao local
 		
-		//$con = mysqli_connect("localhost","dummy", "" ,"construtora") or die ("erro".mysqli_error($con)); //conexao local
+		$con = mysqli_connect("localhost","dummy", "" ,"construtora") or die ("erro".mysqli_error($con)); //conexao local
 		
 
 		return $con;
@@ -61,11 +61,17 @@ function login($usuario, $senha)
 		$query ="SELECT password FROM Login WHERE idLogin = '$usuario'";
 
 		$resultado = mysqli_query($con,$query) or die("erro de consulta".mysqli_error($con));
-
+		
 		$linha=mysqli_fetch_assoc($resultado);
 
 		$senha_banco = $linha['password'];
 
+
+		if ($senha_banco == "") 
+		{ 
+			return 0; 
+		}
+		
 		if($senha == $senha_banco)
 
 			return 1;
