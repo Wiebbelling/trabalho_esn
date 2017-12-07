@@ -5,6 +5,8 @@ $Acesso = new Acesso();
 
 $Acesso->conectar();
 
+$pagina = "dashboard";
+
 ?>
 
 <!doctype html>
@@ -34,83 +36,22 @@ $Acesso->conectar();
   </head>
 
   <body>
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Estoque</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Configurações</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Perfil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Ajuda</a>
-            </li>
-          </ul>
-          <!-- <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Busca</button>
-          </form> -->
-        </div>
-      </nav>
-    </header>
+    
+    <?php include "header.php" ?>
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Geral <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Solicitacoes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Liberações</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Análise</a>
-            </li>
-          </ul>
 
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Cadastro de Item</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Gestão de Estoque</a>
-            </li>
-          </ul>
-
-         <!--  <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Nav item again</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">One more nav</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Another nav item</a>
-            </li>
-          </ul> -->
-        </nav>
+        <?php include "menu.php" ?>
 
         <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
           <h1>Produtos mais Solicitados</h1>
 
-          <section class="row text-center placeholders"">
+          <section class="row text-center placeholders">
             <div class="col-1">
               
-            </div><div class="col-10">
+            </div>
+            <div class="col-10">
                 <canvas id="canvas"></canvas>
             </div>
           </section>
@@ -166,6 +107,8 @@ $Acesso->conectar();
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
+
+
     <script>
 
         var config = {
@@ -177,13 +120,15 @@ $Acesso->conectar();
                     backgroundColor: window.chartColors.red,
                     borderColor: window.chartColors.red,
                     data: [
+
+                    <?php echo "10,
+                        20,
                         10,
-                        12,
                         10,
-                        15,
                         8,
                         9,
-                        10
+                        10";?>
+                        
                     ],
                     fill: false,
                 }, {
@@ -196,7 +141,7 @@ $Acesso->conectar();
                         7,
                         8,
                         9,
-                        12,
+                        10,
                         9,
                         6
                     ],
@@ -205,7 +150,7 @@ $Acesso->conectar();
             options: {
                 responsive: true,
                 title:{
-                    display:true,
+                    display:false,
                     text:'Produtos mais solicitados'
                 },
                 tooltips: {
