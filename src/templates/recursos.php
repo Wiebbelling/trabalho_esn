@@ -48,7 +48,7 @@
               </thead>
               <tbody>
               <?php
-              require 'class/Excedente.php';
+             // require 'class/Excedente.php';
               $excedente = new Excedente();
               foreach ($recursos as $recurso) {
                   $exc = $excedente->valor($recurso['id_produto'], $usuario->getId());
