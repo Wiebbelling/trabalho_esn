@@ -1,21 +1,15 @@
 <?php
-require 'class/Database.php';
-require 'class/Usuario.php';
-require 'class/Movimentacao.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-session_start();
-$usuario = new Usuario();
-$usuario->load($_SESSION['usuario_id']);
-if (!$usuario->isLoggedIn()) {
-	die('Logue-se');
-}
-
+require 'acesso.php';
 $pagina = 'obras';
 
 $movimentacao = new Movimentacao();
-$movimentacao->aprovar($_GET['id']);
+$estoque = new Estoque();
+$data = $movimentacao->load($_GET['id']);
+$data_estoque = $estoque->loadProduto($data['id_produto']);
+if ($data['quantidade'] <= $data_estoque['quantidade']) {
+	$movimentacao->aprovar($_GET['id']);
+	header('Location: solicitacoes.php');
+} else {
+	header('Location: solicitacoes.php?erro=1');	
+}
 
-header('Location: solicitacoes.php');

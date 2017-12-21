@@ -1,21 +1,24 @@
 <?php
-require 'class/Database.php';
-require 'class/Usuario.php';
-require 'class/Movimentacao.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-session_start();
-$usuario = new Usuario();
-$usuario->load($_SESSION['usuario_id']);
-if (!$usuario->isLoggedIn()) {
-	die('Logue-se');
-}
+require 'acesso.php';
 
 $pagina = 'dashboard';
 
 $solicitacoes = new Movimentacao();
-$solicitacoes = $solicitacoes->listar();
+
+if ($usuario->getPermissao() == 1) {
+	// gerobras
+	$recursos = $solicitacoes->listarRecursosDashboard($usuario->getId());
+	$solicitados = $solicitacoes->listarRecursosDashboard($usuario->getId());
+	$aguardando = $solicitacoes->aguardando($usuario->getId());
+	$rejeitadas = $solicitacoes->rejeitadas($usuario->getId());
+	$aprovadas = $solicitacoes->aprovadas($usuario->getId());
+} else {
+	$recursos = $solicitacoes->listarRecursosDashboard();
+	$solicitados = $solicitacoes->listarRecursosDashboard(null, null);
+	$aguardando = $solicitacoes->aguardando();
+	$rejeitadas = $solicitacoes->rejeitadas();
+	$aprovadas = $solicitacoes->aprovadas();
+}
+
 
 include 'templates/listar.php';
-
-?>

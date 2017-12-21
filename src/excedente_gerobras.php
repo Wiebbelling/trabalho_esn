@@ -1,24 +1,37 @@
 <?php
-require 'class/Database.php';
-require 'class/Usuario.php';
-require 'class/Movimentacao.php';
-require 'class/Produto.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-session_start();
-$usuario = new Usuario();
-$usuario->load($_SESSION['usuario_id']);
-if (!$usuario->isLoggedIn()) {
-	die('Logue-se');
-}
-
+require 'acesso.php';
 $pagina = 'recursos';
+
+if (isset($_POST) && !empty($_POST)) {
+	$movimentacao = new Movimentacao();
+	$mov = $movimentacao->listarRecursos($usuario->getId(), $_GET['id']);
+	if (isset($mov[0])) {
+		$quantidade = $mov[0]['quantidade'];
+		$excedente = new Excedente();
+		$exc = $excedente->valor($_GET['id'], $usuario->getId());
+        if (isset($exc[0])) {
+        	$quantidade = $quantidade - $exc[0]['quantidade'];
+        }
+
+		if ($quantidade >= $_POST['quantidade']) {
+			$excedente->cadastrar($_GET['id'], $usuario->getId(), $_POST['quantidade']);
+
+			$estoque = new Estoque();
+			$estoque->load($_GET['id']);
+			$estoque->updateQuantidade($estoque->getQuantidade() + $exc[0]['quantidade']);
+
+			header('Location: recursos_gerobras.php');
+			die();
+		} else {
+			$error = true;
+		}
+	} else {
+		$error = true;
+	}
+
+}
 
 $produto = new Produto();
 $recurso = $produto->load($_GET['id']);
 
 include 'templates/excedente.php';
-
-?>

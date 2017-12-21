@@ -1,189 +1,247 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: construtora
--- ------------------------------------------------------
--- Server version	5.7.20
+-- Host: localhost
+-- Tempo de geração: 21/12/2017 às 03:33
+-- Versão do servidor: 5.7.20-0ubuntu0.16.04.1
+-- Versão do PHP: 7.0.22-0ubuntu0.16.04.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `Almoxarifado`
+-- Banco de dados: `construtora`
 --
 
-DROP TABLE IF EXISTS `Almoxarifado`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Almoxarifado` (
-  `idAlmoxarifado` int(11) NOT NULL,
-  `adress` varchar(45) DEFAULT NULL,
-  `capacity` varchar(45) DEFAULT NULL,
-  `Login_idLogin` char(45) NOT NULL,
-  PRIMARY KEY (`idAlmoxarifado`),
-  KEY `fk_Almoxarifado_Login1_idx` (`Login_idLogin`),
-  CONSTRAINT `fk_Almoxarifado_Login1` FOREIGN KEY (`Login_idLogin`) REFERENCES `Login` (`idLogin`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `Almoxarifado`
+-- Estrutura para tabela `estoques`
 --
 
-LOCK TABLES `Almoxarifado` WRITE;
-/*!40000 ALTER TABLE `Almoxarifado` DISABLE KEYS */;
-INSERT INTO `Almoxarifado` VALUES (0,'Forno Alegre - Inferno','infinito','dummy');
-/*!40000 ALTER TABLE `Almoxarifado` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Login`
---
-
-DROP TABLE IF EXISTS `Login`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Login` (
-  `idLogin` char(45) NOT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `permission` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idLogin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Login`
---
-
-LOCK TABLES `Login` WRITE;
-/*!40000 ALTER TABLE `Login` DISABLE KEYS */;
-INSERT INTO `Login` VALUES ('dummy','123',2),('Hommer','porco_aranha',1);
-/*!40000 ALTER TABLE `Login` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Obra`
---
-
-DROP TABLE IF EXISTS `Obra`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Obra` (
-  `idObra` int(11) NOT NULL,
-  `status` int(11) DEFAULT NULL,
-  `adress` varchar(45) DEFAULT NULL,
-  `Login_idLogin` char(45) NOT NULL,
-  PRIMARY KEY (`idObra`),
-  KEY `fk_Obra_Login1_idx` (`Login_idLogin`),
-  CONSTRAINT `fk_Obra_Login1` FOREIGN KEY (`Login_idLogin`) REFERENCES `Login` (`idLogin`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Obra`
---
-
-LOCK TABLES `Obra` WRITE;
-/*!40000 ALTER TABLE `Obra` DISABLE KEYS */;
-INSERT INTO `Obra` VALUES (0,0,'Forno Alegre - Inferno 2','Hommer');
-/*!40000 ALTER TABLE `Obra` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Recurso`
---
-
-DROP TABLE IF EXISTS `Recurso`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Recurso` (
-  `CodigoRecurso` int(11) NOT NULL,
-  `Descricao` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`CodigoRecurso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Recurso`
---
-
-LOCK TABLES `Recurso` WRITE;
-/*!40000 ALTER TABLE `Recurso` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Recurso` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Solicitacoes`
---
-
-DROP TABLE IF EXISTS `Solicitacoes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Solicitacoes` (
-  `idObra` int(11) NOT NULL,
-  `codigoRecurso` int(11) NOT NULL,
-  `quantidade` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idObra`,`codigoRecurso`),
-  KEY `fk_codRecurso` (`codigoRecurso`),
-  CONSTRAINT `fk_codRecurso` FOREIGN KEY (`codigoRecurso`) REFERENCES `Recurso` (`CodigoRecurso`),
-  CONSTRAINT `fk_idObra` FOREIGN KEY (`idObra`) REFERENCES `Obra` (`idObra`)
+CREATE TABLE `estoques` (
+  `id` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Solicitacoes`
+-- Fazendo dump de dados para tabela `estoques`
 --
 
-LOCK TABLES `Solicitacoes` WRITE;
-/*!40000 ALTER TABLE `Solicitacoes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Solicitacoes` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `estoques` (`id`, `id_produto`, `quantidade`) VALUES
+(1, 1, 10),
+(2, 2, 1000),
+(3, 3, 0),
+(4, 4, 2),
+(5, 5, 500),
+(6, 6, 500),
+(7, 7, 10000),
+(8, 8, 10000),
+(9, 9, 50000),
+(10, 10, 5000);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Troca de Recursos`
+-- Estrutura para tabela `excedentes`
 --
 
-DROP TABLE IF EXISTS `Troca de Recursos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Troca de Recursos` (
-  `Almoxarifado_idAlmoxarifado` int(11) NOT NULL,
-  `Obra_idObra` int(11) NOT NULL,
-  `Recurso_CodigoRecurso` int(11) NOT NULL,
-  `Quantidade` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Almoxarifado_idAlmoxarifado`,`Obra_idObra`),
-  KEY `fk_Almoxarifado_has_Obra_Obra1_idx` (`Obra_idObra`),
-  KEY `fk_Almoxarifado_has_Obra_Almoxarifado1_idx` (`Almoxarifado_idAlmoxarifado`),
-  KEY `fk_Troca de Recursos_Recurso1_idx` (`Recurso_CodigoRecurso`),
-  CONSTRAINT `fk_Almoxarifado_has_Obra_Almoxarifado1` FOREIGN KEY (`Almoxarifado_idAlmoxarifado`) REFERENCES `Almoxarifado` (`idAlmoxarifado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Almoxarifado_has_Obra_Obra1` FOREIGN KEY (`Obra_idObra`) REFERENCES `Obra` (`idObra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Troca de Recursos_Recurso1` FOREIGN KEY (`Recurso_CodigoRecurso`) REFERENCES `Recurso` (`CodigoRecurso`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `excedentes` (
+  `id` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `Troca de Recursos`
+-- Fazendo dump de dados para tabela `excedentes`
 --
 
-LOCK TABLES `Troca de Recursos` WRITE;
-/*!40000 ALTER TABLE `Troca de Recursos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Troca de Recursos` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `excedentes` (`id`, `id_produto`, `id_usuario`, `quantidade`) VALUES
+(17, 1, 1, 1);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `movimentacoes`
+--
+
+CREATE TABLE `movimentacoes` (
+  `id` int(11) NOT NULL,
+  `id_obra` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `aprovada` int(11) NOT NULL,
+  `data_criacao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `movimentacoes`
+--
+
+INSERT INTO `movimentacoes` (`id`, `id_obra`, `id_produto`, `id_usuario`, `quantidade`, `aprovada`, `data_criacao`) VALUES
+(9, 1, 1, 1, 1, 1, '2017-12-21 03:24:15'),
+(10, 3, 1, 3, 1, 0, '2017-12-21 03:24:30'),
+(11, 3, 7, 3, 100, 0, '2017-12-21 03:24:39');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `obras`
+--
+
+CREATE TABLE `obras` (
+  `id` int(11) NOT NULL,
+  `codigo` varchar(128) NOT NULL,
+  `local` varchar(128) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `data_inicio` date NOT NULL,
+  `data_entrega` date NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `obras`
+--
+
+INSERT INTO `obras` (`id`, `codigo`, `local`, `id_usuario`, `data_inicio`, `data_entrega`, `status`) VALUES
+(1, 'UFRGSOBRA', 'Porto Alegre', 1, '2017-12-21', '2017-12-21', 1),
+(2, 'PUCRSOBRA', 'Porto Alegre', 1, '2017-12-21', '2017-12-31', 1),
+(3, 'CANOASOBRA', 'Canoas', 3, '2017-12-06', '2017-12-31', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `produtos`
+--
+
+CREATE TABLE `produtos` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(128) NOT NULL,
+  `descricao` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `nome`, `descricao`) VALUES
+(1, 'MARTELO', ''),
+(2, 'PREGO 1 POLEGADA\r\n', ''),
+(3, 'CHAVE PHILIPS 1/4', ''),
+(4, 'CHAVE PHILIPS 1/2', ''),
+(5, 'PREGO NIQUEL 4 POLEGADAS', ''),
+(6, 'PREGO COBRE 4 POLEGADAS', ''),
+(7, 'TIJOLO ALVERNARIA 8 FUROS', ''),
+(8, 'TIJOLO ALVENARIA 12 FUROS', ''),
+(9, 'TIJOLO BLOCO CONCRETO 2 FUROS', ''),
+(10, 'TIJOLO BLOCO CONCRETO 4 FUROS', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `usuario` varchar(128) NOT NULL,
+  `senha` varchar(128) NOT NULL,
+  `permissao` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `usuario`, `senha`, `permissao`) VALUES
+(1, 'gerenteobras', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 1),
+(2, 'gerenterecursos', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 2),
+(3, 'gerenteobras2', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 1);
+
+--
+-- Índices de tabelas apagadas
+--
+
+--
+-- Índices de tabela `estoques`
+--
+ALTER TABLE `estoques`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `excedentes`
+--
+ALTER TABLE `excedentes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `obras`
+--
+ALTER TABLE `obras`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de tabelas apagadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `estoques`
+--
+ALTER TABLE `estoques`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT de tabela `excedentes`
+--
+ALTER TABLE `excedentes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT de tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de tabela `obras`
+--
+ALTER TABLE `obras`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-11-27 18:05:10

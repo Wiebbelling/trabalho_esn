@@ -1,36 +1,78 @@
-<?php
-require 'class/Database.php';
-require 'class/Usuario.php';
-require 'class/Estoque.php';
-require 'class/Obra.php';
-require 'class/Produto.php';
-require 'class/Movimentacao.php';
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/favicon.ico">
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-session_start();
+    <title>Estoque</title>
 
-$usuario = new Usuario();
-$usuario->load($_SESSION['usuario_id']);
-if (!$usuario->isLoggedIn()) {
-	die('Logue-se');
-}
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
-$pagina = 'solicitacao_nova';
-if (isset($_POST) && !empty($_POST)) {
-	if ((int)$_POST['quantidade'] > 0) {
-		$movimentacao = new Movimentacao();
-		$movimentacao->criar($_POST['obra'], $_POST['produto'], $usuario->getId(), $_POST['quantidade']);
-		header('Location: solicitacoes.php');
-		die();
-	} else {
-		$error = true;
-	}
-}
+    <!-- Custom styles for this template -->
+    <link href="assets/css/dashboard.css" rel="stylesheet">
 
-$produto = new Produto();
-$obra = new Obra();
+    <script src="assets/js/Chart.bundle.js"></script>
+    <script src="assets/js/utils.js"></script>
 
-$obras = $obra->listar($usuario->getId());
-$produtos = $produto->listar();
-include 'templates/solicitacao_nova.php';
+    <style>
+
+    </style>
+
+  </head>
+
+  <body>
+    
+    <?php include "templates/header.php" ?>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <?php include "templates/menu.php" ?>
+
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+          <h2>Nova Solicitação</h2>
+          <hr>
+          <?php if (isset($error) && $error): ?>
+            <div class="alert alert-danger">Quantidade inválida.</div>
+          <?php endif; ?>
+          <form class="form form-vertical" action="" method="post">
+              <div class="form-group">
+                <label for="usr">Obra:</label>
+                <select class="form-control" name="obra">
+                    <option>Selecione uma obra</option>
+                    <?php foreach ($obras as $obra): ?>
+                        <option value="<?php echo $obra['id'] ?>"><?php echo $obra['codigo'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="usr">Produto:</label>
+                <select class="form-control" name="produto">
+                    <option>Selecione um produto</option>
+                    <?php foreach ($produtos as $produto): ?>
+                        <option value="<?php echo $produto['id'] ?>"><?php echo $produto['nome'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="usr">Quantidade:</label>
+                <input type="text" class="form-control" id="quantidade" name="quantidade" style="width: 100px" value="1">
+              </div>
+              <button type="submit" class="btn btn-primary">Solicitar</button>
+
+          </form>
+
+        </main>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+  </body>
+</html>

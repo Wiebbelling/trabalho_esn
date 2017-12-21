@@ -23,6 +23,12 @@ class Usuario {
 		return $this->permissao;
 	}
 
+	public function listar() {
+		$query = $this->db->query('SELECT id, usuario FROM usuarios');
+		$data = $query->fetchAll();
+		return $data;
+	}
+
 	public function log($usuario, $senha) {
 		$senha_hash = hash('sha256', $senha);
 		$query = $this->db->prepare('SELECT id FROM usuarios WHERE usuario = ? AND senha = ?');

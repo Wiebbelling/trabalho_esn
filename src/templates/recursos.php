@@ -60,7 +60,7 @@
                   echo "<tr>";
                   echo '<td>'.$recurso['nome'].'</td>';
                   echo '<td>'.$quantidade.'</td>';
-                  echo '<td><a href="excedente_gerobras.php?id='.$recurso['id_produto'].'">EXCEDENTE</a></td>';
+                  echo '<td><a class="btn btn-danger btn-sm" href="excedente_gerobras.php?id='.$recurso['id_produto'].'">CADASTRAR EXCEDENTE</a></td>';
                   echo "</tr>";
               }
 

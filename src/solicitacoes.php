@@ -1,21 +1,42 @@
 <?php
-require 'class/Database.php';
-require 'class/Usuario.php';
-require 'class/Movimentacao.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-session_start();
-$usuario = new Usuario();
-$usuario->load($_SESSION['usuario_id']);
-if (!$usuario->isLoggedIn()) {
-	die('Logue-se');
-}
+require 'acesso.php';
 
 $pagina = 'solicitacoes';
 
 $movimentacoes = new Movimentacao();
-$movimentacoes = $movimentacoes->listarTodas();
+//$movimentacoes = $movimentacoes->listarTodas();
+
+$obras = new Obra();
+$obras = $obras->listar();
+$produtos = new Produto();
+$produtos = $produtos->listar();
+
+$usuarios = new Usuario();
+$solicitantes = $usuarios->listar();
+
+if (isset($_POST) && !empty($_POST)) {
+	$query = '1=1';
+	$params = array();
+	if (!empty($_POST['obra'])) {
+		$query .= ' AND movimentacoes.id_obra = ?';
+		$params[] = $_POST['obra'];
+	}
+	if (!empty($_POST['produto'])) {
+		$query .= ' AND movimentacoes.id_produto = ?';
+		$params[] = $_POST['produto'];
+	}
+	if (!empty($_POST['solicitante'])) {
+		$query .= ' AND movimentacoes.id_usuario = ?';
+		$params[] = $_POST['solicitante'];
+	}
+	if (!empty($_POST['status'])) {
+		$query .= ' AND movimentacoes.aprovada = ?';
+		$params[] = $_POST['status'];
+	}
+	$movimentacoes = $movimentacoes->listarTodasQuery($query, $params);
+} else {
+	$movimentacoes = $movimentacoes->listarTodas();
+}
+
 
 include 'templates/solicitacoes.php';
-
-?>
